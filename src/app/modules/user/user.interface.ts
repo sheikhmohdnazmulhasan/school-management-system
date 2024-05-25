@@ -8,3 +8,11 @@ export interface TUser {
     isDeleted: boolean;
 };
 
+export interface NewUser {
+    password: string | null;
+    role: string | null;
+    id: string | null;
+};
+
+
+
