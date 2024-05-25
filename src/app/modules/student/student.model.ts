@@ -38,7 +38,8 @@ const StudentSchema = new Schema({
   guardian: { type: GuardianSchema, required: true },
   localGuardian: { type: LocalGuardianSchema, required: true },
   profileImg: { type: String },
-  isDeleted: { type: Boolean, required: true, default: false }
-});
+  isDeleted: { type: Boolean, required: true, default: false },
+  
+}, { timestamps: true });
 
 export const Student = model('Student', StudentSchema);
