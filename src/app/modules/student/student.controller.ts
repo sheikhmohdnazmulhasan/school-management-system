@@ -5,7 +5,6 @@ async function createStudent(req: Request, res: Response) {
   const { password, student } = req.body;
 
   try {
-
     const result = await UserServices.createStudentIntoDb(password, student);
 
     res.status(200).json({
