@@ -3,6 +3,7 @@ import cors from 'cors';
 import status from 'http-status';
 import { UserRoutes } from './app/modules/user/user.route';
 import config from './app/config';
+import route from './app/routes';
 const app: Application = express();
 
 // parser
@@ -21,7 +22,7 @@ app.get('/', (req, res) => {
 });
 
 // application route;
-app.use('/api/v1', UserRoutes);
+app.use('/api/v1', route);
 
 
 // global error handler

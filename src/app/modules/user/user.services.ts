@@ -15,7 +15,7 @@ async function createStudentIntoDb(password: string, student: TStudent) {
 
     // TODO
     // set hardcoded id but it well be generated automatically.
-    user.id = ``;
+    user.id = `1010101021`;
 
     try {
 
