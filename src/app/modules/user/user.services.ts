@@ -5,7 +5,7 @@ import { Student } from "../student/student.model";
 import { NewUser } from "./user.interface";
 import User from "./user.model";
 
-async function createStudentIntoDb(password: string, student: TStudent, next: NextFunction) {
+async function createStudentIntoDb(password: string, student: TStudent) {
 
     // create a user Object
     const user: NewUser = { password: null, role: 'student', id: null };
@@ -15,7 +15,7 @@ async function createStudentIntoDb(password: string, student: TStudent, next: Ne
 
     // TODO
     // set hardcoded id but it well be generated automatically.
-    user.id = `323232zzz3aa`;
+    user.id = ``;
 
     try {
 
@@ -34,7 +34,7 @@ async function createStudentIntoDb(password: string, student: TStudent, next: Ne
         };
 
     } catch (error) {
-        next(error);
+        return { status: 400, success: false, message: 'Student Creation Failed', data: null, error: error }
     }
 
 };

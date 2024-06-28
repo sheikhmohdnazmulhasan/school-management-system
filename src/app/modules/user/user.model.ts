@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
-// import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import { TUser } from "./user.interface";
-// import config from "../../config";
+import config from "../../config";
 
 const userSchema = new Schema<TUser>({
     id: { type: String, required: true, unique: true },
@@ -17,8 +17,8 @@ const userSchema = new Schema<TUser>({
 
 // encrypting password
 // userSchema.pre('save', async function (next) {
-//     this.password = await bcrypt.hash(this.password, Number(config.bcrypt_salt_rounds));
-//     console.log(await bcrypt.hash(this.password, Number(config.bcrypt_salt_rounds)));
+//     // this.password = await bcrypt.hash(this.password, Number(config.bcrypt_salt_rounds));
+
 //     next();
 // });
 

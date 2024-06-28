@@ -6,7 +6,7 @@ async function createStudent(req: Request, res: Response, next: NextFunction) {
 
     try {
 
-        const result = await UserServices.createStudentIntoDb(password, student, next);
+        const result = await UserServices.createStudentIntoDb(password, student);
 
         if (result) {
             res.status(result.status).json({
@@ -18,12 +18,12 @@ async function createStudent(req: Request, res: Response, next: NextFunction) {
         }
 
     } catch (error) {
-        // res.status(400).json({
-        //     success: false,
-        //     message: 'internal server error'
-        // })
+        res.status(400).json({
+            success: false,
+            message: 'internal server error'
+        })
 
-        next(error)
+      
     }
 
 }

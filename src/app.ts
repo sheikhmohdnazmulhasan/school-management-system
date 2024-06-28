@@ -1,6 +1,8 @@
 import express, { Application, NextFunction, Request, Response, } from 'express';
 import cors from 'cors';
+import status from 'http-status';
 import { UserRoutes } from './app/modules/user/user.route';
+import config from './app/config';
 const app: Application = express();
 
 // parser
@@ -8,16 +10,18 @@ app.use(express.json());
 app.use(cors());
 
 // startup endpoint
-app.get('/', (req: Request, res: Response) => {
-  res.send('server is running!')
+app.get('/', (req, res) => {
+  res.status(status.OK).json({
+    success: true,
+    PORT: config.port,
+    message: 'server is running!',
+
+  });
+
 });
 
 // application route;
 app.use('/api/v1', UserRoutes);
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
 
 
 // global error handler
@@ -31,6 +35,15 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     error: err,
   });
 
-})
+});
+
+app.all("*", (req: Request, res: Response) => {
+  res.status(status.NOT_FOUND).json({
+    success: false,
+    message: 'endpoint not found',
+
+  });
+
+});
 
 export default app;
