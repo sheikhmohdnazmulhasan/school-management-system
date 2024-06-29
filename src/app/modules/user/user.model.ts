@@ -16,11 +16,9 @@ const userSchema = new Schema<TUser>({
 
 
 // encrypting password
-// userSchema.pre('save', async function (next) {
-//     // this.password = await bcrypt.hash(this.password, Number(config.bcrypt_salt_rounds));
-
-//     next();
-// });
+userSchema.pre('save', async function () {
+    this.password = await bcrypt.hash(this.password, Number(config.bcrypt_salt_rounds));
+});
 
 
 const User = mongoose.model('User', userSchema);

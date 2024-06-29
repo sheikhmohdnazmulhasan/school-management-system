@@ -1,10 +1,11 @@
-import { NextFunction } from "express";
 import config from "../../config";
 import { TStudent } from "../student/student.interface";
 import { Student } from "../student/student.model";
 import { NewUser } from "./user.interface";
 import User from "./user.model";
 import httpStatus from "http-status";
+import studentValidationSchema from "../student/student.validation";
+import { UserValidation } from "./user.validation";
 
 async function createStudentIntoDb(password: string, student: TStudent) {
 
@@ -16,11 +17,12 @@ async function createStudentIntoDb(password: string, student: TStudent) {
 
     // TODO
     // set hardcoded id but it well be generated automatically.
-    user.id = `1010101021`;
+    user.id = `10101010ee21`;
 
     try {
 
         // create a user
+        // const zodParsedUser = UserValidation.userSchemaValidation.parse(user);
         const newUser = await User.create(user);
 
         // if user is successfully created we well modify student data.
@@ -35,7 +37,7 @@ async function createStudentIntoDb(password: string, student: TStudent) {
         };
 
     } catch (error) {
-        return { status: httpStatus.REQUEST_TIMEOUT, success: false, message: 'Student Creation Failed', data: null, error: error }
+        return { status: httpStatus.BAD_REQUEST, success: false, message: 'Student Creation Failed', data: null, error: error }
     }
 
 };

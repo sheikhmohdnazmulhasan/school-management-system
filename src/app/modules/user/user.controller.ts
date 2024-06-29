@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { UserServices } from "../user/user.services";
 import httpStatus from "http-status";
 
-async function createStudent(req: Request, res: Response, next: NextFunction) {
+async function createStudent(req: Request, res: Response) {
     const { password, student } = req.body;
 
     try {
