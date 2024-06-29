@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { UserServices } from "../user/user.services";
+import httpStatus from "http-status";
 
 async function createStudent(req: Request, res: Response, next: NextFunction) {
     const { password, student } = req.body;
@@ -15,17 +16,14 @@ async function createStudent(req: Request, res: Response, next: NextFunction) {
                 data: result.data,
                 error: result.error
             });
-        }
+        };
 
     } catch (error) {
-        res.status(400).json({
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             success: false,
             message: 'internal server error'
-        })
-
-      
-    }
-
-}
+        });
+    };
+};
 
 export const userControllers = { createStudent };

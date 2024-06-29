@@ -4,6 +4,7 @@ import { TStudent } from "../student/student.interface";
 import { Student } from "../student/student.model";
 import { NewUser } from "./user.interface";
 import User from "./user.model";
+import httpStatus from "http-status";
 
 async function createStudentIntoDb(password: string, student: TStudent) {
 
@@ -30,11 +31,11 @@ async function createStudentIntoDb(password: string, student: TStudent) {
             // const zodParsedStudent = studentValidationSchema.parse(student);
             const newStudent = await Student.create(student);
 
-            return { status: 200, success: true, message: 'Student Created Successfully', data: newStudent, error: null }
+            return { status: httpStatus.OK, success: true, message: 'Student Created Successfully', data: newStudent, error: null }
         };
 
     } catch (error) {
-        return { status: 400, success: false, message: 'Student Creation Failed', data: null, error: error }
+        return { status: httpStatus.REQUEST_TIMEOUT, success: false, message: 'Student Creation Failed', data: null, error: error }
     }
 
 };
