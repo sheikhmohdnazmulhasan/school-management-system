@@ -4,8 +4,8 @@ import { Student } from "../student/student.model";
 import { NewUser } from "./user.interface";
 import User from "./user.model";
 import httpStatus from "http-status";
-import studentValidationSchema from "../student/student.validation";
-import { UserValidation } from "./user.validation";
+// import studentValidationSchema from "../student/student.validation";
+// import { UserValidation } from "./user.validation";
 
 async function createStudentIntoDb(password: string, student: TStudent) {
 
@@ -17,7 +17,7 @@ async function createStudentIntoDb(password: string, student: TStudent) {
 
     // TODO
     // set hardcoded id but it well be generated automatically.
-    user.id = `10101010ee21`;
+    user.id = `101010sss10ee21`;
 
     try {
 
