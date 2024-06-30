@@ -34,7 +34,27 @@ async function getSingleStudent(req: Request, res: Response, next: NextFunction)
 
   } catch (error) {
 
+  };
+
+}; //end
+
+async function deleteStudent(req: Request, res: Response, next: NextFunction) {
+
+  try {
+    const result = await StudentServices.deleteStudentFromDB(req.params.studentId, next);
+
+    if (result) {
+      res.status(result.status).json({
+        success: result.success,
+        message: result.message,
+        data: result.data,
+        error: result.error
+      });
+    };
+
+  } catch (error) {
+
   }
 }
 
-export const StudentControllers = { getSingleStudent };
+export const StudentControllers = { getSingleStudent, deleteStudent };
