@@ -8,11 +8,14 @@ const router = express.Router();
 // create new academic semester
 router.post('/create-academic-semester', ValidateRequest(AcademicSemesterValidation.createAcademicSemesterSchema), AcademicSemesterControllers.createAcademicSemester);
 
-// get all academic semesters
+// get all academic semesters by id
 router.get('/', AcademicSemesterControllers.getAllAcademicSemesters);
 
 // get specific academic semester
 router.get('/:semesterId', AcademicSemesterControllers.getSpecificSemester);
+
+// update specific academic semester by id;
+router.patch('/:semesterId',ValidateRequest(AcademicSemesterValidation.UpdateAcademicSemesterSchema) , AcademicSemesterControllers.updateSpecificSemester)
 
 
 export const AcademicSemesterRoutes = router;

@@ -58,4 +58,31 @@ async function getSpecificSemesterFromDb(semesterId: string, next: NextFunction)
 
 }; //end
 
-export const AcademicSemesterServices = { createAcademicSemesterIntoDb, getAllAcademicSemestersFromDb, getSpecificSemesterFromDb };
+// update a academic semester info;
+async function updateSpecificSemesterIntoDb(semesterId: string, payload: TAcademicSemester, next: NextFunction) {
+
+    // checking semester name and code
+    type TAcademicSemesterCodeChecker = { [key: string]: string };
+    const academicSemesterCodeChecker: TAcademicSemesterCodeChecker = { Autumn: '01', Summer: '02', Fall: '03' };
+
+    if (academicSemesterCodeChecker[payload.name] !== payload.code) {
+        throw new Error('Wrong Academic Semester Code!');
+
+    };
+
+    try {
+
+        const result = await AcademicSemester.findByIdAndUpdate(semesterId, payload);
+
+        if (result) {
+            return { status: httpStatus.OK, success: true, message: 'Semester Updated Successfully', data: result, error: null };
+
+        };
+
+    } catch (error) {
+        next(error)
+    };
+
+}; //end
+
+export const AcademicSemesterServices = { createAcademicSemesterIntoDb, getAllAcademicSemestersFromDb, getSpecificSemesterFromDb, updateSpecificSemesterIntoDb };

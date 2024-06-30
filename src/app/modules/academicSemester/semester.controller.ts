@@ -72,6 +72,27 @@ async function getSpecificSemester(req: Request, res: Response, next: NextFuncti
         next(error)
     }
 
-}
+};
 
-export const AcademicSemesterControllers = { createAcademicSemester, getAllAcademicSemesters, getSpecificSemester };
+// update specific academic semester;
+async function updateSpecificSemester(req: Request, res: Response, next: NextFunction) {
+
+    try {
+        const result = await AcademicSemesterServices.updateSpecificSemesterIntoDb(req.params.semesterId, req.body, next);
+
+        if (result) {
+            res.status(result.status).json({
+                success: result.success,
+                message: result.message,
+                data: result.data,
+                error: result.error
+            });
+        };
+
+    } catch (error) {
+        next(error);
+    };
+
+}; //end
+
+export const AcademicSemesterControllers = { createAcademicSemester, getAllAcademicSemesters, getSpecificSemester, updateSpecificSemester };
