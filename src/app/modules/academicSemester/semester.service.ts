@@ -1,17 +1,18 @@
 import httpStatus from "http-status";
 import { TAcademicSemester } from "./semester.interface";
 import { AcademicSemester } from "./semester.model";
+import { NextFunction } from "express";
 
-async function createAcademicSemesterIntoDb(payload: TAcademicSemester) {
+async function createAcademicSemesterIntoDb(payload: TAcademicSemester, next: NextFunction) {
 
     try {
-        
+
         const createNewAcademicSemester = await AcademicSemester.create(payload);
 
         return { status: httpStatus.OK, success: true, message: 'Academic Semester Created Successfully', data: createNewAcademicSemester, error: null };
 
     } catch (error) {
-        return { status: httpStatus.BAD_REQUEST, success: false, message: 'Academic Semester Creation Failed', data: null, error: error }
+        next(error)
     };
 };
 

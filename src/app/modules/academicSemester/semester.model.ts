@@ -12,4 +12,22 @@ const academicSemesterSchema = new Schema<TAcademicSemester>({
     endMonth: { type: String, enum: months, required: true }
 }, { timestamps: true });
 
+
+
+// pre hook middleware
+academicSemesterSchema.pre('save', async function name(next) {
+
+    const isAcademicSemesterExists = await AcademicSemester.findOne({
+        year: this.year,
+        name: this.name
+    });
+
+    if (isAcademicSemesterExists) {
+        throw new Error('Academic Semester is Already Exist!');
+
+    } else {
+        next();
+    };
+});
+
 export const AcademicSemester = mongoose.model('AcademicSemester', academicSemesterSchema);
