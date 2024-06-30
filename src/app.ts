@@ -1,9 +1,8 @@
 import express, { Application, NextFunction, Request, Response, } from 'express';
 import cors from 'cors';
 import status from 'http-status';
-import { UserRoutes } from './app/modules/user/user.route';
 import config from './app/config';
-import route from './app/routes';
+import Routes from './app/routes';
 const app: Application = express();
 
 // parser
@@ -22,7 +21,7 @@ app.get('/', (req, res) => {
 });
 
 // application route;
-app.use('/api/v1', route);
+app.use('/api/v1', Routes);
 
 
 // global error handler
