@@ -6,7 +6,7 @@ const Routes = Router();
 
 const moduleRoutes = [
     { path: '/users', route: UserRoutes },
-    { path: '/x', route: AcademicSemesterRoutes },
+    { path: '/academic-semester', route: AcademicSemesterRoutes },
 ];
 
 moduleRoutes.forEach(eachRoute => Routes.use(eachRoute.path, eachRoute.route));
