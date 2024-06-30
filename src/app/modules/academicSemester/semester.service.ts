@@ -24,7 +24,8 @@ async function createAcademicSemesterIntoDb(payload: TAcademicSemester, next: Ne
     } catch (error) {
         next(error)
     };
-};
+
+}; //end
 
 // find all academic semester;
 async function getAllAcademicSemestersFromDb(next: NextFunction) {
@@ -36,7 +37,25 @@ async function getAllAcademicSemestersFromDb(next: NextFunction) {
 
     } catch (error) {
         next(error)
-    }
-}
+    };
 
-export const AcademicSemesterServices = { createAcademicSemesterIntoDb, getAllAcademicSemestersFromDb };
+}; //end
+
+// get specific academic semester;
+async function getSpecificSemesterFromDb(semesterId: string, next: NextFunction) {
+
+    try {
+        const result = await AcademicSemester.findById(semesterId);
+
+        if (result) {
+            return { status: httpStatus.OK, success: true, message: 'Semester Fetched Successfully', data: result, error: null };
+
+        };
+
+    } catch (error) {
+        next(error);
+    };
+
+}; //end
+
+export const AcademicSemesterServices = { createAcademicSemesterIntoDb, getAllAcademicSemestersFromDb, getSpecificSemesterFromDb };

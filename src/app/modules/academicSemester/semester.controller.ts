@@ -52,4 +52,26 @@ async function getAllAcademicSemesters(req: Request, res: Response, next: NextFu
 
 }; // end
 
-export const AcademicSemesterControllers = { createAcademicSemester, getAllAcademicSemesters };
+// get specific academic semester;
+async function getSpecificSemester(req: Request, res: Response, next: NextFunction) {
+
+
+    try {
+        const result = await AcademicSemesterServices.getSpecificSemesterFromDb(req.params.semesterId, next);
+
+        if (result) {
+            res.status(result.status).json({
+                success: result.success,
+                message: result.message,
+                data: result.data,
+                error: result.error
+            });
+        };
+
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+export const AcademicSemesterControllers = { createAcademicSemester, getAllAcademicSemesters, getSpecificSemester };
