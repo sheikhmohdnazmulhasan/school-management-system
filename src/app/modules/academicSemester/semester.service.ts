@@ -10,3 +10,5 @@ async function createAcademicSemesterIntoDb(data: TAcademicSemester) {
         return { status: httpStatus.BAD_REQUEST, success: false, message: 'Student Creation Failed', data: null, error: error }
     };
 };
+
+export const AcademicSemesterServices = { createAcademicSemesterIntoDb };
