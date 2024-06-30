@@ -1,6 +1,6 @@
 import { NextFunction } from "express";
-import { TAcademicFaculty } from "./faculty.interface";
-import { AcademicFaculty } from "./faculty.model";
+import { TAcademicFaculty } from "./academicFaculty.interface";
+import { AcademicFaculty } from "./academicFaculty.model";
 import httpStatus from "http-status";
 
 async function createAcademicFacultyIntoDb(payload: TAcademicFaculty, next: NextFunction) {

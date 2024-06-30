@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { TAcademicFaculty } from "./faculty.interface";
+import { TAcademicFaculty } from "./academicFaculty.interface";
 
 const academicFacultySchema = new Schema<TAcademicFaculty>({
     name: { type: String, required: true },
