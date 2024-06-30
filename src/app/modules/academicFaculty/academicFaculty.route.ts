@@ -8,4 +8,6 @@ const router = express.Router();
 
 router.post('/create-academic-faculty', ValidateRequest(academicFacultyValidation.createAcademicFacultySchemaValidation), AcademicFacultyControllers.createAcademicFaculty);
 
+router.get('/', AcademicFacultyControllers.getAllAcademicFaculties);
+
 export const AcademicFacultyRoutes = router;

@@ -6,7 +6,7 @@ const academicFacultySchema = new Schema<TAcademicFaculty>({
 
 }, { timestamps: true });
 
-// academicFacultySchema.pre('save', async function () {
+// academicFacultySchema.pre('save', async function (next) {
 //     const name = this.name;
 //     const isAcademicFacultyExists = await AcademicFaculty.aggregate([{ $match: { name } }]);
 
