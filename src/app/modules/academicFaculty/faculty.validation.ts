@@ -8,3 +8,4 @@ const academicFacultySchemaValidation = z.object({
 });
 
 export const academicFacultyValidation = { academicFacultySchemaValidation }
+//
