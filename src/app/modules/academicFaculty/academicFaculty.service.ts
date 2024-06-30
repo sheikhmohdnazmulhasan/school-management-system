@@ -9,7 +9,7 @@ async function createAcademicFacultyIntoDb(payload: TAcademicFaculty, next: Next
         const result = await AcademicFaculty.create(payload);
 
         if (result) {
-            return { status: httpStatus.OK, success: true, message: 'Student Created Successfully', data: result, error: null }
+            return { status: httpStatus.OK, success: true, message: 'Academic Faculty Created Successfully', data: result, error: null }
         };
 
     } catch (error) {
