@@ -1,4 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
+import { TStudent } from './student.interface';
 
 const UserNameSchema = new Schema({
   firstName: { type: String, required: true },
@@ -22,9 +23,9 @@ const LocalGuardianSchema = new Schema({
   address: { type: String, required: true }
 });
 
-const StudentSchema = new Schema({
+const StudentSchema = new Schema <TStudent>({
   id: { type: String, required: true, unique: true },
-  user: { type: Types.ObjectId, ref: 'User', required: true },
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   name: { type: UserNameSchema, required: true },
   gender: { type: String, required: true, enum: ['male', 'female', 'other'] },
   dateOfBirth: { type: String },
@@ -36,9 +37,10 @@ const StudentSchema = new Schema({
   permanentAddress: { type: String, required: true },
   guardian: { type: GuardianSchema, required: true },
   localGuardian: { type: LocalGuardianSchema, required: true },
+  admissionSemester: { type: Schema.Types.ObjectId, ref: 'AcademicSemester', required: true },
   profileImg: { type: String },
   isDeleted: { type: Boolean, required: true, default: false },
-  
+
 }, { timestamps: true });
 
 export const Student = model('Student', StudentSchema);
