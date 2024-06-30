@@ -10,4 +10,6 @@ router.post('/create-academic-faculty', ValidateRequest(academicFacultyValidatio
 
 router.get('/', AcademicFacultyControllers.getAllAcademicFaculties);
 
+router.get('/:academicFacultyId', AcademicFacultyControllers.getSpecificAcademicFaculty);
+
 export const AcademicFacultyRoutes = router;

@@ -18,7 +18,7 @@ async function createAcademicFacultyIntoDb(payload: TAcademicFaculty, next: Next
 
 }; //end
 
-async function getAllAcademicFacultiesIntoDb(next: NextFunction) {
+async function getAllAcademicFacultiesFromDb(next: NextFunction) {
 
     try {
         const result = await AcademicFaculty.find();
@@ -33,4 +33,19 @@ async function getAllAcademicFacultiesIntoDb(next: NextFunction) {
 
 }; //end
 
-export const AcademicFacultyServices = { createAcademicFacultyIntoDb, getAllAcademicFacultiesIntoDb };
+async function getSpecificAcademicFacultyFromDb(academicFacultyId: string, next: NextFunction) {
+
+    try {
+        const result = await AcademicFaculty.findById(academicFacultyId);
+
+        if (result) {
+            return { status: httpStatus.OK, success: true, message: 'Academic Faculty Fetched Successfully', data: result, error: null }
+        };
+
+    } catch (error) {
+        next(error);
+    };
+
+}; //end
+
+export const AcademicFacultyServices = { createAcademicFacultyIntoDb, getAllAcademicFacultiesFromDb, getSpecificAcademicFacultyFromDb };
