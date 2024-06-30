@@ -3,10 +3,9 @@ import { AcademicSemesterServices } from "./semester.service";
 import httpStatus from "http-status";
 
 async function createAcademicSemester(req: Request, res: Response) {
-    const data = req.body;
 
     try {
-        const result = await AcademicSemesterServices.createAcademicSemesterIntoDb(data);
+        const result = await AcademicSemesterServices.createAcademicSemesterIntoDb(req.body);
 
         if (result) {
             res.status(result.status).json({
