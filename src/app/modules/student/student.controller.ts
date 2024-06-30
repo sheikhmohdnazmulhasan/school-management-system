@@ -53,8 +53,29 @@ async function deleteStudent(req: Request, res: Response, next: NextFunction) {
     };
 
   } catch (error) {
+    next(error);
+  };
 
-  }
-}
+}; //end
 
-export const StudentControllers = { getSingleStudent, deleteStudent };
+async function getAllStudents(req: Request, res: Response, next: NextFunction) {
+
+  try {
+    const result = await StudentServices.getAllStudentsFromDB(next);
+
+    if (result) {
+      res.status(result.status).json({
+        success: result.success,
+        message: result.message,
+        data: result.data,
+        error: result.error
+      });
+    };
+
+  } catch (error) {
+    next(error);
+  };
+
+}; //end
+
+export const StudentControllers = { getSingleStudent, deleteStudent, getAllStudents };

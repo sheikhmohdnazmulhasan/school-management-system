@@ -2,10 +2,22 @@ import { NextFunction } from 'express';
 import { Student } from './student.model';
 import httpStatus from 'http-status';
 
-const getAllStudentsFromDB = async () => {
-  const result = await Student.find();
-  return result;
-};
+const getAllStudentsFromDB = async (next: NextFunction) => {
+
+  try {
+    const result = await Student.find();
+
+    if (result) {
+      return { status: httpStatus.OK, success: true, message: 'All Students Fetched Successfully', data: result, error: null };
+
+    };
+
+  } catch (error) {
+    next(error);
+
+  };
+
+}; //end
 
 const getSingleStudentFromDB = async (id: string, next: NextFunction) => {
 
