@@ -48,4 +48,19 @@ async function getSpecificAcademicFacultyFromDb(academicFacultyId: string, next:
 
 }; //end
 
-export const AcademicFacultyServices = { createAcademicFacultyIntoDb, getAllAcademicFacultiesFromDb, getSpecificAcademicFacultyFromDb };
+async function updateSpecificAcademicFacultyFromDb(academicFacultyId: string, payload: Partial<TAcademicFaculty>, next: NextFunction) {
+
+    try {
+        const result = await AcademicFaculty.findByIdAndUpdate(academicFacultyId, payload);
+
+        if (result) {
+            return { status: httpStatus.OK, success: true, message: 'Academic Faculty update Successfully', data: result, error: null }
+        };
+
+    } catch (error) {
+        next(error);
+    };
+
+}; //end
+
+export const AcademicFacultyServices = { createAcademicFacultyIntoDb, getAllAcademicFacultiesFromDb, getSpecificAcademicFacultyFromDb, updateSpecificAcademicFacultyFromDb };
