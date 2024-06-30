@@ -10,6 +10,6 @@ const academicSemesterSchema = new Schema<TAcademicSemester>({
     year: { type: Date, required: true },
     startMonth: { type: String, enum: months, required: true },
     endMonth: { type: String, enum: months, required: true }
-});
+}, { timestamps: true });
 
 export const AcademicSemester = mongoose.model('AcademicSemester', academicSemesterSchema);
