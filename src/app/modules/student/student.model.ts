@@ -23,13 +23,13 @@ const LocalGuardianSchema = new Schema({
   address: { type: String, required: true }
 });
 
-const StudentSchema = new Schema <TStudent>({
+const StudentSchema = new Schema<TStudent>({
   id: { type: String, required: true, unique: true },
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   name: { type: UserNameSchema, required: true },
   gender: { type: String, required: true, enum: ['male', 'female', 'other'] },
   dateOfBirth: { type: String },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   contactNo: { type: String, required: true },
   emergencyContactNo: { type: String, required: true },
   bloodGroup: { type: String, enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'] },
