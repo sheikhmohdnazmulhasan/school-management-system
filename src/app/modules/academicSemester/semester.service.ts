@@ -3,6 +3,7 @@ import { TAcademicSemester } from "./semester.interface";
 import { AcademicSemester } from "./semester.model";
 import { NextFunction } from "express";
 
+// create a new academic semester;
 async function createAcademicSemesterIntoDb(payload: TAcademicSemester, next: NextFunction) {
 
     // checking semester name and code
@@ -25,4 +26,17 @@ async function createAcademicSemesterIntoDb(payload: TAcademicSemester, next: Ne
     };
 };
 
-export const AcademicSemesterServices = { createAcademicSemesterIntoDb };
+// find all academic semester;
+async function getAllAcademicSemestersFromDb(next: NextFunction) {
+
+    try {
+        const result = await AcademicSemester.find();
+
+        return { status: httpStatus.OK, success: true, message: 'All Semesters Fetched Successfully', data: result, error: null };
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const AcademicSemesterServices = { createAcademicSemesterIntoDb, getAllAcademicSemestersFromDb };
