@@ -36,7 +36,7 @@ async function getAllAcademicDepartmentFromDb(next: NextFunction) {
 async function getSpecificAcademicDepartmentFromDb(academicDepartmentId: string, next: NextFunction) {
 
     try {
-        const result = await AcademicDepartment.findById(academicDepartmentId);
+        const result = await AcademicDepartment.findById(academicDepartmentId).populate('academicFaculty')
 
         if (result) {
             return { status: httpStatus.OK, success: true, message: 'Academic Department Fetched Successfully', data: result, error: null }
