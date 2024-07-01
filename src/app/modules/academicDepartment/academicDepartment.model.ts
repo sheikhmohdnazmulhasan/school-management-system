@@ -7,14 +7,5 @@ const academicDepartmentSchema = new Schema<TAcademicDepartment>({
 
 }, { timestamps: true });
 
-// academicFacultySchema.pre('save', async function (next) {
-//     const name = this.name;
-//     const isAcademicFacultyExists = await AcademicFaculty.aggregate([{ $match: { name } }]);
-
-//     if (isAcademicFacultyExists) {
-//         throw new Error('Academic Faculty is Already Exist!')
-//     };
-
-// });
 
 export const AcademicDepartment = mongoose.model<TAcademicDepartment>('AcademicDepartment', academicDepartmentSchema);

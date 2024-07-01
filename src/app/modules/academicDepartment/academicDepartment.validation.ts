@@ -5,6 +5,7 @@ const createAcademicDepartmentSchemaValidation = z.object({
         name: z.string({
             invalid_type_error: 'Name must be an String'
         }),
+        academicFaculty: z.string()
     }),
 });
 
@@ -13,8 +14,9 @@ const updateAcademicDepartmentSchemaValidation = z.object({
         name: z.string({
             invalid_type_error: 'Name must be an String'
         }).optional(),
+        academicFaculty: z.string().optional()
     }),
 });
 
-export const AcademicDepartmentValidation = {  createAcademicDepartmentSchemaValidation, updateAcademicDepartmentSchemaValidation }
+export const AcademicDepartmentValidation = { createAcademicDepartmentSchemaValidation, updateAcademicDepartmentSchemaValidation }
 //
