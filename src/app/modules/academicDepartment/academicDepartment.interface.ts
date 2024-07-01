@@ -1,3 +1,3 @@
 import { Types } from "mongoose";
 
-export interface TAcademicFaculty { name: string; academicFaculty: Types.ObjectId };
+export interface TAcademicDepartment { name: string; academicFaculty: Types.ObjectId };
