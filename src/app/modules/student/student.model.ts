@@ -45,3 +45,4 @@ const StudentSchema = new Schema<TStudent>({
 }, { timestamps: true });
 
 export const Student = model('Student', StudentSchema);
+
