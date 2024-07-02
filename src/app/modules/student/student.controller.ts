@@ -17,10 +17,31 @@ async function getSingleStudent(req: Request, res: Response, next: NextFunction)
     };
 
   } catch (error) {
-
+    next(error)
   };
 
 }; //end
+
+// update student data;
+async function updateStudent(req: Request, res: Response, next: NextFunction) {
+
+  try {
+    const result = await StudentServices.updateStudentIntoDb(req.params.studentId, req.body.student, next);
+
+    if (result) {
+      res.status(result.status).json({
+        success: result.success,
+        message: result.message,
+        data: result.data,
+        error: result.error
+      });
+    };
+
+  } catch (error) {
+    next(error)
+  }
+
+}
 
 async function deleteStudent(req: Request, res: Response, next: NextFunction) {
 
@@ -62,4 +83,4 @@ async function getAllStudents(req: Request, res: Response, next: NextFunction) {
 
 }; //end
 
-export const StudentControllers = { getSingleStudent, deleteStudent, getAllStudents };
+export const StudentControllers = { getSingleStudent, deleteStudent, getAllStudents, updateStudent };

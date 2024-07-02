@@ -3,6 +3,7 @@ import { Student } from './student.model';
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
 import User from '../user/user.model';
+import { TStudent } from './student.interface';
 
 const getAllStudentsFromDB = async (next: NextFunction) => {
 
@@ -28,7 +29,7 @@ const getSingleStudentFromDB = async (id: string, next: NextFunction) => {
 
   try {
     // const result = await Student.aggregate([{ $match: { id } }]);
-    const result = await Student.findOne({id}).populate('admissionSemester').populate({
+    const result = await Student.findOne({ id }).populate('admissionSemester').populate({
       path: 'admissionDepartment',
       populate: { path: 'academicFaculty' }
     })
@@ -43,6 +44,23 @@ const getSingleStudentFromDB = async (id: string, next: NextFunction) => {
   }
 
 }; //end
+
+
+// update Student;
+async function updateStudentIntoDb(id: string, payload: Partial<TStudent>, next: NextFunction) {
+
+  try {
+    const result = await Student.findOneAndUpdate({ id }, payload);
+
+    if (result) {
+      return { status: httpStatus.OK, success: true, message: 'Student Updated Successfully', data: result, error: null };
+    };
+
+  } catch (error) {
+    next(error);
+  };
+
+};
 
 const deleteStudentFromDB = async (id: string, next: NextFunction) => {
 
@@ -90,4 +108,5 @@ export const StudentServices = {
   getAllStudentsFromDB,
   getSingleStudentFromDB,
   deleteStudentFromDB,
+  updateStudentIntoDb
 };
