@@ -4,6 +4,7 @@ import httpStatus from "http-status";
 
 async function createStudent(req: Request, res: Response) {
     const { password, student } = req.body;
+    console.log(req.body);
 
     try {
 
@@ -17,12 +18,13 @@ async function createStudent(req: Request, res: Response) {
                 error: result.error
             });
         };
-
+        
     } catch (error) {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             success: false,
-            message: 'internal server error'
+            message: 'internal server error',
         });
+
     };
 };
 

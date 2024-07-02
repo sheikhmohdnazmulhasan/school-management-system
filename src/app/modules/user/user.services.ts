@@ -7,6 +7,7 @@ import { NewUser } from "./user.interface";
 import User from "./user.model";
 import httpStatus from "http-status";
 import { generateStudentId } from "./user.utils";
+import mongoose from "mongoose";
 // import studentValidationSchema from "../student/student.validation";
 // import { UserValidation } from "./user.validation";
 
@@ -20,30 +21,49 @@ async function createStudentIntoDb(password: string, payload: TStudent) {
 
     // find full academic semester info for generating id;
     const academicSemesterInfo = await AcademicSemester.findById(payload.admissionSemester);
-
+    
     // set user id
     user.id = await generateStudentId(academicSemesterInfo as TAcademicSemester);
 
-    console.log(user);
+    // ****
+    // isolated environment for transaction and rollback;
+    const session = await mongoose.startSession();
 
     try {
 
-        // create a user
-        // const zodParsedUser = UserValidation.userSchemaValidation.parse(user);
-        const newUser = await User.create(user);
+        // ****
+        session.startTransaction();
 
-        // if user is successfully created we well modify student data.
-        if (Object.keys(newUser).length) {
-            payload.id = newUser.id;
-            payload.user = newUser._id;
+        // create a user (transaction 1)
+        const newUser = await User.create([user], { session });
 
-            // const zodParsedStudent = studentValidationSchema.parse(student);
-            const newStudent = await Student.create(payload);
-
-            return { status: httpStatus.OK, success: true, message: 'Student Created Successfully', data: newStudent, error: null }
+        //   if user creation failure we will throw new error
+        if (!newUser.length) {
+            throw new Error('User creation failed!');
         };
 
+        // if user is successfully created we well modify student data.
+        payload.id = newUser[0].id
+        payload.user = newUser[0]._id
+
+        // create a student (transition 2);
+        const newStudent = await Student.create([payload], { session });
+
+        if (!newStudent.length) {
+            throw new Error('Student creation failed!');
+        };
+
+        await session.commitTransaction();
+        await session.endSession();
+
+        return { status: httpStatus.OK, success: true, message: 'Student Created Successfully', data: newStudent, error: null }
+
     } catch (error) {
+        await session.abortTransaction();
+        await session.endSession();
+
+        console.log(error);
+
         return { status: httpStatus.BAD_REQUEST, success: false, message: 'Student Creation Failed', data: null, error: error }
     }
 
