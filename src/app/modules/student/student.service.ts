@@ -28,7 +28,7 @@ const getSingleStudentFromDB = async (id: string, next: NextFunction) => {
 
   try {
     // const result = await Student.aggregate([{ $match: { id } }]);
-    const result = await Student.findById(id).populate('admissionSemester').populate({
+    const result = await Student.findOne({id}).populate('admissionSemester').populate({
       path: 'admissionDepartment',
       populate: { path: 'academicFaculty' }
     })
@@ -52,7 +52,7 @@ const deleteStudentFromDB = async (id: string, next: NextFunction) => {
     session.startTransaction();
 
     const isStudentIdValid = await User.findOne({ id });
-    
+
     if (!isStudentIdValid) {
       throw new Error(`Student id is invalid (${id})`);
 
