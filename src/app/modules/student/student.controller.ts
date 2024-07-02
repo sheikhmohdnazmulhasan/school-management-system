@@ -66,7 +66,7 @@ async function deleteStudent(req: Request, res: Response, next: NextFunction) {
 async function getAllStudents(req: Request, res: Response, next: NextFunction) {
 
   try {
-    const result = await StudentServices.getAllStudentsFromDB(next);
+    const result = await StudentServices.getAllStudentsFromDB(req.query, next);
 
     if (result) {
       res.status(result.status).json({

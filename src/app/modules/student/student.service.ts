@@ -5,10 +5,21 @@ import mongoose from 'mongoose';
 import User from '../user/user.model';
 import { TStudent } from './student.interface';
 
-const getAllStudentsFromDB = async (next: NextFunction) => {
+const getAllStudentsFromDB = async (query: Record<string, unknown>, next: NextFunction) => {
+  let searchTerm: string = '';
+
+  if (query.searchTerm) {
+    searchTerm = query.searchTerm as string;
+  };
 
   try {
-    const result = await Student.find().populate('admissionSemester').populate({
+    const result = await Student.find({
+
+      $or: ['name.firstName', 'email', 'presentAddress'].map((field) => ({
+        [field]: { $regex: searchTerm, $options: 'i' }
+      }))
+
+    }).populate('admissionSemester').populate({
       path: 'admissionDepartment',
       populate: { path: 'academicFaculty' }
     });
@@ -54,7 +65,7 @@ async function updateStudentIntoDb(id: string, payload: Partial<TStudent>, next:
 
 
   if (name && Object.keys(name).length) {
-    
+
     for (const [key, value] of Object.entries(name)) {
       modifiedDataForDatabase[`name.${key}`] = value;
     };
@@ -78,7 +89,7 @@ async function updateStudentIntoDb(id: string, payload: Partial<TStudent>, next:
   };
 
   try {
-    const result = await Student.findOneAndUpdate({ id }, modifiedDataForDatabase, { new: true});
+    const result = await Student.findOneAndUpdate({ id }, modifiedDataForDatabase, { new: true });
 
     if (result) {
       return { status: httpStatus.OK, success: true, message: 'Student Updated Successfully', data: result, error: null };
