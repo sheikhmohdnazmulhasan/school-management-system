@@ -1,6 +1,8 @@
 import { NextFunction } from 'express';
 import { Student } from './student.model';
 import httpStatus from 'http-status';
+import mongoose from 'mongoose';
+import User from '../user/user.model';
 
 const getAllStudentsFromDB = async (next: NextFunction) => {
 
@@ -43,17 +45,43 @@ const getSingleStudentFromDB = async (id: string, next: NextFunction) => {
 }; //end
 
 const deleteStudentFromDB = async (id: string, next: NextFunction) => {
-  const result = await Student.updateOne({ id }, { isDeleted: true });
+
+  const session = await mongoose.startSession();
 
   try {
+    session.startTransaction();
 
-    if (result) {
-      return { status: httpStatus.OK, success: true, message: 'Student Deleted Successfully', data: result, error: null };
+    const isStudentIdValid = await User.findOne({ id });
+    
+    if (!isStudentIdValid) {
+      throw new Error(`Student id is invalid (${id})`);
 
     };
 
+    // firstly delete user (transition 1);
+    const deleteUser = await User.findOneAndUpdate({ id }, { isDeleted: true }, { new: true, session });
+
+    if (!deleteUser) {
+      throw new Error('User deletion failure');
+
+    };
+
+    // if user is successfully deleted then well delete student (transition 2);
+    const deleteStudent = await Student.findOneAndUpdate({ id }, { isDeleted: true }, { new: true, session });
+
+    if (!deleteStudent) {
+      throw new Error('Student deletion failure');
+    };
+
+    await session.commitTransaction();
+    await session.endSession();
+
+    return { status: httpStatus.OK, success: true, message: 'Student Deleted Successfully', data: deleteStudent, error: null };
+
   } catch (error) {
-    next(error)
+    await session.abortTransaction();
+    await session.endSession();
+    next(error);
   }
 
 }; //end

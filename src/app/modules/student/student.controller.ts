@@ -1,22 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { UserServices } from "../user/user.services";
 import { StudentServices } from "./student.service";
 
-// async function createStudent(req: Request, res: Response) {
-//   const { password, student } = req.body;
-
-//   try {
-//     const result = await UserServices.createStudentIntoDb(password, student);
-
-//     res.status(200).json({
-//       success: true
-//     })
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-
-// }
 
 async function getSingleStudent(req: Request, res: Response, next: NextFunction) {
 
