@@ -4,8 +4,7 @@ import httpStatus from "http-status";
 
 async function createStudent(req: Request, res: Response) {
     const { password, student } = req.body;
-    console.log(req.body);
-
+    
     try {
 
         const result = await UserServices.createStudentIntoDb(password, student);

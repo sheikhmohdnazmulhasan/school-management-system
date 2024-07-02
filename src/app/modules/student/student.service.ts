@@ -48,9 +48,37 @@ const getSingleStudentFromDB = async (id: string, next: NextFunction) => {
 
 // update Student;
 async function updateStudentIntoDb(id: string, payload: Partial<TStudent>, next: NextFunction) {
+  const { name, guardian, localGuardian, ...remainingData } = payload;
+
+  const modifiedDataForDatabase: Record<string, unknown> = { ...remainingData }
+
+
+  if (name && Object.keys(name).length) {
+    
+    for (const [key, value] of Object.entries(name)) {
+      modifiedDataForDatabase[`name.${key}`] = value;
+    };
+
+  }
+
+  if (localGuardian && Object.keys(localGuardian).length) {
+
+    for (const [key, value] of Object.entries(localGuardian)) {
+      modifiedDataForDatabase[`localGuardian.${key}`] = value;
+    };
+
+  };
+
+  if (guardian && Object.keys(guardian).length) {
+
+    for (const [key, value] of Object.entries(guardian)) {
+      modifiedDataForDatabase[`guardian.${key}`] = value;
+    };
+
+  };
 
   try {
-    const result = await Student.findOneAndUpdate({ id }, payload);
+    const result = await Student.findOneAndUpdate({ id }, modifiedDataForDatabase, { new: true});
 
     if (result) {
       return { status: httpStatus.OK, success: true, message: 'Student Updated Successfully', data: result, error: null };

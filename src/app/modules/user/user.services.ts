@@ -62,9 +62,7 @@ async function createStudentIntoDb(password: string, payload: TStudent) {
         await session.abortTransaction();
         await session.endSession();
 
-        console.log(error);
-
-        return { status: httpStatus.BAD_REQUEST, success: false, message: 'Student Creation Failed', data: null, error: error }
+        return { status: httpStatus.BAD_REQUEST, success: false, message: 'Student Creation Failed', data: null, error: error };
     }
 
 }; //end
