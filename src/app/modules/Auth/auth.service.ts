@@ -3,6 +3,7 @@ import { TLoginUser } from "./auth.interface";
 import httpStatus from "http-status";
 import User from "../user/user.model";
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 
 async function loginUser(payload: TLoginUser, next: NextFunction) {
@@ -11,13 +12,13 @@ async function loginUser(payload: TLoginUser, next: NextFunction) {
         const user = await User.findOne({ id: payload.id });
 
         if (!user) {
-            return { status: httpStatus.NOT_FOUND, success: false, message: ' Id is Invalid', data: null, error: null };
+            throw new Error('invalid Id');
 
         } else if (user?.isDeleted) {
-            return { status: httpStatus.FORBIDDEN, success: false, message: ' User is Deleted', data: null, error: null };
+            throw new Error('User Deleted');
 
         } else if (user.status === 'blocked') {
-            return { status: httpStatus.FORBIDDEN, success: false, message: ' User is Blocked', data: null, error: null };
+            throw new Error('user Blocked');
 
         } else {
 
@@ -25,12 +26,17 @@ async function loginUser(payload: TLoginUser, next: NextFunction) {
             const isPasswordCorrect = await bcrypt.compare(payload.password, user.password);
 
             if (!isPasswordCorrect) {
-                return { status: httpStatus.UNAUTHORIZED, success: false, message: ' Wrong Password', data: null, error: null };
+                throw new Error('Wrong Password');
+
 
             } else {
-                // login granted
 
-                return { status: httpStatus.UNAUTHORIZED, success: false, message: ' login success', data: user, error: null };
+                const userPayload = { id: user.id, role: user.role }
+
+                // generate a token
+                const accessToken = jwt.sign(userPayload, 'secret', { expiresIn: '10d' });
+
+                return { status: 200, accessToken, needsPasswordChange: user.needsPasswordChanges }
 
             }
 

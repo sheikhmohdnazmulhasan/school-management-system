@@ -8,10 +8,8 @@ async function loginUser(req: Request, res: Response, next: NextFunction) {
 
         if (result) {
             res.status(result.status).json({
-                success: result.success,
-                message: result.message,
-                data: result.data,
-                error: result.error
+                accessToken: result.accessToken,
+                needsPasswordChanges: result.needsPasswordChange
             });
         };
 

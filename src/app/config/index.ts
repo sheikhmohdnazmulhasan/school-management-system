@@ -7,5 +7,6 @@ export default {
     port: process.env.PORT,
     MONGODB_URI: process.env.MONGODB_URI,
     bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
-    default_pass: process.env.DEFAULT_PASS
+    default_pass: process.env.DEFAULT_PASS,
+    jwt_access_secret: process.env.JWT_ACCESS_SECRET
 }
