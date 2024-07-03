@@ -4,6 +4,7 @@ import httpStatus from "http-status";
 import User from "../user/user.model";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import config from "../../config";
 
 
 async function loginUser(payload: TLoginUser, next: NextFunction) {
@@ -34,7 +35,7 @@ async function loginUser(payload: TLoginUser, next: NextFunction) {
                 const userPayload = { id: user.id, role: user.role }
 
                 // generate a token
-                const accessToken = jwt.sign(userPayload, 'secret', { expiresIn: '10d' });
+                const accessToken = jwt.sign(userPayload,( config.jwt_access_secret as string), { expiresIn: '10d' });
 
                 return { status: 200, accessToken, needsPasswordChange: user.needsPasswordChanges }
 
