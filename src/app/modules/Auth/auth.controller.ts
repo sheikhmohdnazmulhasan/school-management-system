@@ -6,6 +6,15 @@ async function loginUser(req: Request, res: Response, next: NextFunction) {
     try {
         const result = await LoginUserServices.loginUser(req.body, next);
 
+        if (result) {
+            res.status(result.status).json({
+                success: result.success,
+                message: result.message,
+                data: result.data,
+                error: result.error
+            });
+        };
+
 
     } catch (error) {
         next(error)
