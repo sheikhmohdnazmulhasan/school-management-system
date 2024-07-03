@@ -6,23 +6,50 @@ import User from '../user/user.model';
 import { TStudent } from './student.interface';
 
 const getAllStudentsFromDB = async (query: Record<string, unknown>, next: NextFunction) => {
-  let searchTerm: string = '';
+  const queryObj = { ...query };
 
+  let searchTerm: string = '';
   if (query.searchTerm) {
     searchTerm = query.searchTerm as string;
   };
 
+  // searching
+  const searchResult = Student.find({
+    $or: ['name.firstName', 'email', 'presentAddress'].map((field) => ({
+      [field]: { $regex: searchTerm, $options: 'i' }
+    }))
+
+  });
+
+  // filtrating
+  const excludeFields: string[] = ['searchTerm', 'sort', 'limit'];
+  excludeFields.forEach(ele => delete queryObj[ele]);
+
+  const filterResult = searchResult.find(queryObj).populate('admissionSemester').populate({
+    path: 'admissionDepartment',
+    populate: { path: 'academicFaculty' }
+  });
+
+  // shorting
+  let sort: string = '-createdAt';
+  if (query.sort) {
+    sort = query.sort as string;
+
+  };
+
+  const sortResult = filterResult.sort(sort);
+
+  let limit: number = 1;
+  if (query.limit) {
+    limit = Number(query.limit);
+
+  };
+
+
   try {
-    const result = await Student.find({
 
-      $or: ['name.firstName', 'email', 'presentAddress'].map((field) => ({
-        [field]: { $regex: searchTerm, $options: 'i' }
-      }))
 
-    }).populate('admissionSemester').populate({
-      path: 'admissionDepartment',
-      populate: { path: 'academicFaculty' }
-    });
+    const result = await sortResult.limit(limit)
 
     if (result) {
       return { status: httpStatus.OK, success: true, message: 'All Students Fetched Successfully', data: result, error: null };
