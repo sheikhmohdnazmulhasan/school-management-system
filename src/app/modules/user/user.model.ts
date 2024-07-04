@@ -5,7 +5,7 @@ import config from "../../config";
 
 const userSchema = new Schema<TUser>({
     id: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    password: { type: String, required: true, select: 0 },
     needsPasswordChanges: { type: Boolean, default: true },
 
     role: { type: String, enum: ['admin', 'faculty', 'student'], required: true },

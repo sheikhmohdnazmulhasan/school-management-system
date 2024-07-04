@@ -71,7 +71,7 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>, next: NextFu
   // const limitQ = paginationFilter.limit(limit);
   const searchableFields: string[] = ['name.firstName', 'email', 'presentAddress']
 
-  const searchResults = new QueryBuilder(Student.find().populate({
+  const searchResults = new QueryBuilder(Student.find().populate({ path: 'user' }).populate({
     path: 'admissionDepartment',
     populate: { path: 'academicFaculty' }
   }), query).search(searchableFields).filter().sort().paginate().fields();
