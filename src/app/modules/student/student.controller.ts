@@ -64,6 +64,7 @@ async function deleteStudent(req: Request, res: Response, next: NextFunction) {
 }; //end
 
 async function getAllStudents(req: Request, res: Response, next: NextFunction) {
+  console.log(req.cookies);
 
   try {
     const result = await StudentServices.getAllStudentsFromDB(req.query, next);

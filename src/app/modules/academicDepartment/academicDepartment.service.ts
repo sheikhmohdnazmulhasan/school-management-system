@@ -21,7 +21,7 @@ async function createAcademicDepartmentIntoDb(payload: TAcademicDepartment, next
 async function getAllAcademicDepartmentFromDb(next: NextFunction) {
 
     try {
-        const result = await AcademicDepartment.find();
+        const result = await AcademicDepartment.find().populate({ path: 'academicFaculty' })
 
         if (result) {
             return { status: httpStatus.OK, success: true, message: 'Academic Department Fetched Successfully', data: result, error: null }

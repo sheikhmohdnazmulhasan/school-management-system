@@ -7,6 +7,7 @@ import { TStudent } from './student.interface';
 import QueryBuilder from '../../Builder/QueryBuilder';
 
 const getAllStudentsFromDB = async (query: Record<string, unknown>, next: NextFunction) => {
+
   // const queryObj = { ...query };
 
   // let searchTerm: string = '';

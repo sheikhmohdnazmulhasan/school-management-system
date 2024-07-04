@@ -7,4 +7,6 @@ const router = express.Router();
 
 router.post('/login', ValidateRequest(UserLoginValidation.userLoginValidationSchema), LoginUserControllers.loginUser);
 
+router.post('/refresh-token', ValidateRequest(UserLoginValidation.refreshTokenValidationSchema),LoginUserControllers.refreshToken);
+
 export const UserLoginRoute = router;
